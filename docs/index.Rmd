@@ -1,0 +1,377 @@
+---
+title: 'TAXA DE JUROS </br> (TEMA 04)'
+subtitle: 'IEPG20 - Introdução à Economia'
+author: 'Autor: Victor Valerio'
+date: 'Última atualização: `r format(Sys.Date(),"%d-%m-%Y")`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: 16:9
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+# PACOTES UTILIZADOS: ----
+library(xaringanthemer)
+library(xaringanExtra)
+
+# CONFIGURAÇÃO DA FONTE: ----
+style_mono_light(base_color = '#1c5253',
+                  text_font_size = '30px',
+                  header_h1_font_size = '3rem',
+                  header_h2_font_size = '2rem',
+                  header_h3_font_size = '1.5rem')
+
+# CONFIGURAÇÃO PADRÃO CHUNK: ----
+knitr::opts_chunk$set(echo = F,
+                      results = 'asis', 
+                      warning = F, 
+                      message = F, 
+                      error = F, 
+                      fig.align = 'center', 
+                      out.width = '100%')
+
+# RECURSOS DO SLIDE: ----
+use_scribble()
+use_search(show_icon = TRUE)
+```
+
+## TÓPICOS ABORDADOS
+
+</br>
+
+- [**MATEMÁTICA FINANCEIRA**](#matematicafinanceira)
+
+- [**TAXAS DE JUROS IMPORTANTES**](#taxadejurosimportantes)
+
+- [**CONCEITO DE SPREAD BANCÁRIO**](#spreadbancaria)
+
+
+
+
+---
+class: inverse, center, middle 
+name: matematicafinanceira
+
+## REVISÃO: MATEMÁTICA FINANCEIRA
+
+
+
+---
+<div style="text-align: justify">
+
+## REVISÃO: MATEMÁTICA FINANCEIRA
+
+- Os juros capitalizados de maneira simples (**juros simples**) correspondem ao rendimento futuro 
+gerados a partir da **incidência** apenas sobre o **principal** (capital inicial) associado:
+
+$$J_n = P . i . n$$
+$J_n$ = Juros gerados em _n_ períodos
+
+$𝑃$ = Principal (capital inicial);
+
+$𝑖$ = Taxa de Juros;
+
+$𝑛$ = Número de Períodos.
+
+
+
+
+---
+<div style="text-align: justify">
+
+## REVISÃO: MATEMÁTICA FINANCEIRA
+
+- O valor total obtido após o período de rendimento é chamado de **valor futuro (VF)**. No caso do 
+juros simples, tem-se:
+
+$$VF_n = P + J_n$$
+
+$$VF_n = P + P.i.n$$
+$VF_n$ = Valor Futuro após _n_ períodos.
+
+
+- **Obs.**: Os juros simples quase não são utilizados na prática.
+
+
+---
+<div style="text-align: justify">
+
+## REVISÃO: MATEMÁTICA FINANCEIRA
+
+- Por sua vez, os juros capitalizados de maneira composta (**juros compostos**) correspondem ao rendimento
+futuro que incide sobre o **principal** (capital inicial) empregado acrescido dos juros até o período 
+anterior:
+
+$$VF_1 = P+P.i = P(1+i)$$
+$$VF_2 = VF_1+VF_1.i = P(1+i)^2$$
+$$VF_3 = VF_2+VF_2.i = P(1+i)^3$$
+$$VF_n = VF_{n-1}+VF_{n-1}.i = P(1+i)^n$$
+
+
+---
+<div style="text-align: justify">
+
+## RELAÇÃO COM MACROECONOMIA
+
+- Com esta pequena revisão de matemática financeira já é possível realizar uma associação com o 
+conceito de taxa de juros. Como visto, como os valores nominais representam poder de compra em 
+períodos diferentes é necessário realizar uma correção da série;
+
+- De fato, toda vez que estamos interessados em avaliar a variação de uma série monetária é 
+necessário realizar esta correção monetária (**deflacionar a série**).
+
+- Isto nada mais é que um exercício simples de matemática financeira (ao se considerar o regime de 
+capitalização composta).
+
+---
+<div style="text-align: justify">
+
+## RELAÇÃO COM MACROECONOMIA
+
+**EXEMPLO DE SÉRIE DEFLACIONADA**
+
+```{r , results = 'asis', echo = F, warning = F, message = F, error = F, fig.align ='center', out.width = '100%'}
+
+
+library(magrittr)
+
+
+library(kableExtra)
+
+
+cronograma <- data.frame(
+  
+  a = c('Jan - 2021', 'Fev - 2021', 'Mar - 2021', 'Abr - 2021', 'Mai - 2021', 'Jun - 2021'),
+  
+  b = c('', '0,12%', '0,9%', '0,4%', '0,61%', '0,14%'),
+  
+  c = c('R$ 15', 'R$ 35', 'R$ 60', 'R$ 42', 'R$ 38', 'R$ 12'),
+  
+  d = c('R$ 15,33', 'R$ 35,72', 'R$ 60,69', 'R$ 42,32', 'R$ 38,05', 'R$ 12,00'))
+
+knitr::kable(cronograma, 
+             
+             escape = FALSE,
+    
+             format = 'html',
+             
+             col.names = c('Data', 'Taxa de Inflação', 
+                           
+                           'Série Original', 'Série Deflacionada'),
+             
+             align = c('c', 'c', 'c', 'c')) %>%
+  
+  kable_styling(bootstrap_options = 'striped')
+  
+
+```
+
+- Valores à preços de junho de 2021.
+
+
+
+
+---
+class: inverse, center, middle 
+name: taxadejurosimportantes
+
+## TAXAS DE JUROS IMPORTANTES
+
+
+
+
+---
+<div style="text-align: justify">
+
+## TAXAS DE JUROS IMPORTANTES
+
+</br>
+
+- Existem diversas taxas de juros no Brasil. Entretanto, pode-se dizer a grosso modo que duas delas 
+são especialmente importantes.
+
+  - A **Taxa de Juros básica da economia brasileira (Selic)**;
+
+  - A **Taxa de Depósito Interbancário (DI)**.
+  
+  
+---
+<div style="text-align: justify">
+
+## TAXAS DE JUROS IMPORTANTES
+
+- A taxa SELIC (Sistema Especial de Liquidação e Custódia) é entendida como taxa básica de juros 
+pois:
+
+  - Corresponde a taxa que remunera os títulos públicos (ou seja, representa a rentabilidade dos 
+títulos públicos);
+
+  - É o principal instrumento de política monetária do Banco Central do Brasil (BACEN) – Taxa de 
+redesconto;
+
+  - Ela é definida a cada 45 dias na reunião do COPOM (Comitê de Política Monetária).
+
+
+
+  
+---
+<div style="text-align: justify">
+
+## TAXAS DE JUROS IMPORTANTES
+  
+- Em associação, os bancos usam a informação da Taxa SELIC para formarem uma outra taxa de juros 
+(denominada de DI);
+
+- Ao final do dia os bancos precisam “zerar” os respectivos caixas dado que o volume de recebimentos 
+não é igual ao volume de pagamentos;
+
+- Com isso há uma “troca de caixas” entre os bancos e a taxa do DI é a referência para estas 
+operações.
+ 
+
+
+
+---
+class: inverse, center, middle 
+name: taxadejurosimportantes
+
+## CONCEITO DE SPREAD BANCÁRIO
+
+
+
+
+---
+<div style="text-align: justify">
+
+## CONCEITO DE SPREAD BANCÁRIO
+
+- Os bancos são chamados de intermediários financeiros, isto é, eles captam recursos de agentes 
+superavitários e realocam para agentes deficitários através de suas operações de crédito;
+
+</br>
+
+- Por isso os bancos são instituições importantes, eles viabilizam os investimentos aumentando a 
+produção de uma determinada economia.
+
+
+
+---
+class: inverse
+<div style="text-align: justify">
+
+## CONCEITO DE SPREAD BANCÁRIO
+
+```{r, echo = F, warning = F, message = F, error = F, out.width= '90%', fig.align = 'center'}
+
+
+
+knitr::include_graphics('fig1.PNG', dpi = 300)
+
+
+
+```
+
+
+---
+<div style="text-align: justify">
+
+## CONCEITO DE SPREAD BANCÁRIO
+
+- Quando os bancos realizam operações de captação eles pagam juros aos agentes superavitários (para 
+estimular que a operação seja realizada);
+
+- De outro lado, quando os bancos emprestam dinheiro eles cobram juros (devido ao pagamento de custos 
+administrativos, lucro e risco).
+
+- Obviamente, os juros pagos pelos bancos nas operações de captação são menores que os juros cobrados 
+nas operações de empréstimos. Esta diferença entre taxas é chamada de spread bancário.  
+
+
+---
+class: inverse
+<div style="text-align: justify">
+
+## CONCEITO DE SPREAD BANCÁRIO
+
+```{r, echo = F, warning = F, message = F, error = F, out.width= '90%', fig.align = 'center'}
+
+
+
+knitr::include_graphics('fig2.PNG', dpi = 300)
+
+
+
+```
+
+---
+class: inverse
+<div style="text-align: justify">
+
+## IMPACTO DA SELIC NA INFLAÇÃO DE DEMANDA
+
+```{r, echo = F, warning = F, message = F, error = F, out.width= '90%', fig.align = 'center'}
+
+
+
+knitr::include_graphics('fig3.png', dpi = 300)
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
