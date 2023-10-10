@@ -28,6 +28,7 @@ style_mono_light(base_color = '#1c5253',
 
 # CONFIGURAÇÃO PADRÃO CHUNK: ----
 knitr::opts_chunk$set(echo = F,
+                      cache = T,
                       results = 'asis', 
                       warning = F, 
                       message = F, 
@@ -135,7 +136,7 @@ capitalização composta).
 
 **EXEMPLO DE SÉRIE DEFLACIONADA**
 
-```{r , results = 'asis', echo = F, warning = F, message = F, error = F, fig.align ='center', out.width = '100%'}
+```{r , results = 'asis'}
 
 
 library(magrittr)
@@ -238,7 +239,7 @@ operações.
 
 ---
 class: inverse, center, middle 
-name: taxadejurosimportantes
+name: #spreadbancaria
 
 ## CONCEITO DE SPREAD BANCÁRIO
 
@@ -266,11 +267,11 @@ class: inverse
 
 ## CONCEITO DE SPREAD BANCÁRIO
 
-```{r, echo = F, warning = F, message = F, error = F, out.width= '90%', fig.align = 'center'}
+```{r, out.width= '90%'}
 
 
 
-knitr::include_graphics('fig1.PNG', dpi = 300)
+knitr::include_graphics('fig01.PNG', dpi = 300)
 
 
 
@@ -298,11 +299,11 @@ class: inverse
 
 ## CONCEITO DE SPREAD BANCÁRIO
 
-```{r, echo = F, warning = F, message = F, error = F, out.width= '90%', fig.align = 'center'}
+```{r, out.width= '90%'}
 
 
 
-knitr::include_graphics('fig2.PNG', dpi = 300)
+knitr::include_graphics('fig02.PNG', dpi = 300)
 
 
 
@@ -314,16 +315,49 @@ class: inverse
 
 ## IMPACTO DA SELIC NA INFLAÇÃO DE DEMANDA
 
-```{r, echo = F, warning = F, message = F, error = F, out.width= '90%', fig.align = 'center'}
+```{r, out.width= '90%'}
 
 
 
-knitr::include_graphics('fig3.png', dpi = 300)
+knitr::include_graphics('fig03.png', dpi = 300)
 
 
 
 ```
 
+---
+<div style="text-align: justify">
+
+## O BRASIL EM PERSPECTIVA
+
+```{r}
+library(magrittr)
+selic_anual <- GetBCBData::gbcbd_get_series(id = 432,
+                                            first.date = as.Date('1995-01-01'),
+                                            last.date = Sys.Date())
+
+selic_anual_grafico <- selic_anual %>% 
+  dplyr::rename('Data' = ref.date,
+                'Selic' = value) %>% 
+  ggplot2::ggplot() +
+  ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = Selic),
+                     colour = '#1c5253',
+                     size = .5) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = Data, y = Selic),
+                      colour = '#1c5253',
+                      size = .75) +
+  ggplot2::scale_y_continuous(labels = scales::number_format(suffix = '%')) +
+  ggplot2::labs(title = 'Taxa Selic (Meta Banco Central do Brasil)',
+                x = 'Períodos',
+                y = '(% ao Ano)',
+                caption = 'Dados: Banco Central do Brasil.') +
+  xaringanthemer::theme_xaringan(text_font_size = 15,
+                                 title_font_size = 20) 
+
+selic_anual_grafico <- plotly::ggplotly(selic_anual_grafico)
+
+widgetframe::frameWidget(selic_anual_grafico, width = '100%', height = '100%')
+```
 
 
 
