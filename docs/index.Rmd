@@ -41,6 +41,42 @@ use_scribble()
 use_search(show_icon = TRUE)
 ```
 
+
+```{r}
+# PACOTES NECESSÁRIOS:
+library(magrittr, include.only = '%>%')
+library(ggplot2)
+
+# IMPORTAÇÃO DE DADOS:
+taxa_di_anual_id <- 4389
+taxa_selic_anual_id <- 432
+spread_bancario_di <- 20783 
+taxa_juros_di <- 20714
+  
+ 
+taxa_di_anual <- GetBCBData::gbcbd_get_series(id = taxa_di_anual_id,
+                                               first.date = as.Date('1995-01-01'),
+                                               last.date = Sys.Date())
+
+taxa_selic_anual <- GetBCBData::gbcbd_get_series(taxa_selic_anual_id,
+                                                 first.date = as.Date('1995-01-01'),
+                                                 last.date = Sys.Date())
+
+spread_bancario <- GetBCBData::gbcbd_get_series(spread_bancario_di,
+                                                first.date = as.Date('1995-01-01'),
+                                                last.date = Sys.Date())
+
+taxa_juros <- GetBCBData::gbcbd_get_series(taxa_juros_di,
+                                           first.date = as.Date('1995-01-01'),
+                                           last.date = Sys.Date())
+
+
+rm(taxa_di_anual_id,
+   taxa_selic_anual_id,
+   spread_bancario_di,
+   taxa_juros_di)
+```
+
 ## TÓPICOS ABORDADOS
 
 </br>
@@ -218,8 +254,37 @@ redesconto;
   - Ela é definida a cada 45 dias na reunião do COPOM (Comitê de Política Monetária).
 
 
+---
+<div style="text-align: justify">
 
-  
+## O BRASIL EM PERSPECTIVA
+
+```{r grafico_selic}
+# VISUALIZAÇÃO DOS DADOS:
+taxa_selic_grafico <- taxa_selic_anual %>% 
+  dplyr::rename('Data' = ref.date,
+                'Selic' = value) %>% 
+  ggplot2::ggplot() +
+  ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = Selic),
+                     colour = '#1c5253',
+                     size = .5) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = Data, y = Selic),
+                      colour = '#1c5253',
+                      size = .75) +
+  ggplot2::scale_y_continuous(labels = scales::number_format(suffix = '%')) +
+  ggplot2::labs(title = 'Taxa Selic (Meta Banco Central do Brasil)',
+                x = 'Períodos',
+                y = '(% ao Ano)',
+                caption = 'Dados: Banco Central do Brasil.') +
+  xaringanthemer::theme_xaringan(text_font_size = 15,
+                                 title_font_size = 20) 
+
+taxa_selic_grafico <- plotly::ggplotly(taxa_selic_grafico)
+
+widgetframe::frameWidget(taxa_selic_grafico, width = '100%', height = '100%')
+```
+
+
 ---
 <div style="text-align: justify">
 
@@ -234,7 +299,67 @@ não é igual ao volume de pagamentos;
 - Com isso há uma “troca de caixas” entre os bancos e a taxa do DI é a referência para estas 
 operações.
  
+ 
+---
+<div style="text-align: justify">
 
+## O BRASIL EM PERSPECTIVA
+
+```{r grafico_di}
+# VISUALIZAÇÃO DOS DADOS:
+taxa_di_grafico <- taxa_di_anual %>% 
+  dplyr::rename('Data' = ref.date,
+                'DI' = value) %>% 
+  ggplot2::ggplot() +
+  ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = DI),
+                     colour = '#1c5253',
+                     size = .5) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = Data, y = DI),
+                      colour = '#1c5253',
+                      size = .75) +
+  ggplot2::scale_y_continuous(labels = scales::number_format(suffix = '%')) +
+  ggplot2::labs(title = 'Taxa DI (Anualizada Base 252)',
+                x = 'Períodos',
+                y = '(% ao Ano)',
+                caption = 'Dados: Banco Central do Brasil.') +
+  xaringanthemer::theme_xaringan(text_font_size = 15,
+                                 title_font_size = 20) 
+
+taxa_di_grafico <- plotly::ggplotly(taxa_di_grafico)
+
+widgetframe::frameWidget(taxa_di_grafico, width = '100%', height = '100%')
+```
+
+ 
+---
+<div style="text-align: justify">
+
+## O BRASIL EM PERSPECTIVA
+
+```{r grafico_juros}
+# VISUALIZAÇÃO DOS DADOS:
+taxa_juros_grafico <- taxa_juros %>% 
+  dplyr::rename('Data' = ref.date,
+                'Juros' = value) %>% 
+  ggplot2::ggplot() +
+  ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = Juros),
+                     colour = '#1c5253',
+                     size = .5) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = Data, y = Juros),
+                      colour = '#1c5253',
+                      size = .75) +
+  ggplot2::scale_y_continuous(labels = scales::number_format(suffix = '%')) +
+  ggplot2::labs(title = 'Taxa de Juros (Média das Operações de Crédito)',
+                x = 'Períodos',
+                y = '(% ao Ano)',
+                caption = 'Dados: Banco Central do Brasil.') +
+  xaringanthemer::theme_xaringan(text_font_size = 15,
+                                 title_font_size = 20) 
+
+taxa_juros_grafico <- plotly::ggplotly(taxa_juros_grafico)
+
+widgetframe::frameWidget(taxa_juros_grafico, width = '100%', height = '100%')
+```
 
 
 ---
@@ -309,6 +434,37 @@ knitr::include_graphics('fig02.PNG', dpi = 300)
 
 ```
 
+
+---
+## O BRASIL EM PERSPECTIVA
+
+<div style="text-align: justify">
+
+```{r grafico_spread}
+# VISUALIZAÇÃO DOS DADOS:
+spread_bancario_grafico <- spread_bancario %>% 
+  dplyr::rename('Data' = ref.date,
+                'SPREAD' = value) %>% 
+  ggplot2::ggplot() +
+  ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = SPREAD),
+                     colour = '#1c5253',
+                     size = .5) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = Data, y = SPREAD),
+                      colour = '#1c5253',
+                      size = .75) +
+  ggplot2::scale_y_continuous(labels = scales::number_format(suffix = '%')) +
+  ggplot2::labs(title = 'Spread Bancário (Médio das Operações de Crédito)',
+                x = 'Períodos',
+                y = '(P.P.)',
+                caption = 'Dados: Banco Central do Brasil.') +
+  xaringanthemer::theme_xaringan(text_font_size = 15,
+                                 title_font_size = 20) 
+
+spread_bancario_grafico <- plotly::ggplotly(spread_bancario_grafico)
+
+widgetframe::frameWidget(spread_bancario_grafico, width = '100%', height = '100%')
+```
+
 ---
 class: inverse
 <div style="text-align: justify">
@@ -325,39 +481,6 @@ knitr::include_graphics('fig03.png', dpi = 300)
 
 ```
 
----
-<div style="text-align: justify">
-
-## O BRASIL EM PERSPECTIVA
-
-```{r}
-library(magrittr)
-selic_anual <- GetBCBData::gbcbd_get_series(id = 432,
-                                            first.date = as.Date('1995-01-01'),
-                                            last.date = Sys.Date())
-
-selic_anual_grafico <- selic_anual %>% 
-  dplyr::rename('Data' = ref.date,
-                'Selic' = value) %>% 
-  ggplot2::ggplot() +
-  ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = Selic),
-                     colour = '#1c5253',
-                     size = .5) +
-  ggplot2::geom_point(mapping = ggplot2::aes(x = Data, y = Selic),
-                      colour = '#1c5253',
-                      size = .75) +
-  ggplot2::scale_y_continuous(labels = scales::number_format(suffix = '%')) +
-  ggplot2::labs(title = 'Taxa Selic (Meta Banco Central do Brasil)',
-                x = 'Períodos',
-                y = '(% ao Ano)',
-                caption = 'Dados: Banco Central do Brasil.') +
-  xaringanthemer::theme_xaringan(text_font_size = 15,
-                                 title_font_size = 20) 
-
-selic_anual_grafico <- plotly::ggplotly(selic_anual_grafico)
-
-widgetframe::frameWidget(selic_anual_grafico, width = '100%', height = '100%')
-```
 
 
 
