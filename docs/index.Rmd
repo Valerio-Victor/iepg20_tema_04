@@ -457,7 +457,7 @@ class: inverse
 
 
 
-knitr::include_graphics('fig01.PNG', dpi = 300)
+knitr::include_graphics('fig01.png')
 
 
 
@@ -493,7 +493,7 @@ class: inverse
 
 
 
-knitr::include_graphics('fig02.PNG', dpi = 300)
+knitr::include_graphics('fig02.png')
 
 
 
@@ -544,7 +544,7 @@ class: inverse
 
 
 
-knitr::include_graphics('fig03.png', dpi = 300)
+knitr::include_graphics('fig03.png')
 
 
 
