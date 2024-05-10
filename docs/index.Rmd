@@ -1,6 +1,6 @@
 ---
-title: 'TAXA DE JUROS </br> (TEMA 04)'
-subtitle: 'IEPG20 - Introdução à Economia'
+title: 'TAXA DE JUROS'
+subtitle: 'Introdução à Economia </br> (IEPG20)'
 author: 'Autor: Victor Valerio'
 date: 'Última atualização: `r format(Sys.Date(),"%d-%m-%Y")`'
 output:
@@ -28,7 +28,7 @@ style_mono_light(base_color = '#1c5253',
 
 # CONFIGURAÇÃO PADRÃO CHUNK: ----
 knitr::opts_chunk$set(echo = F,
-                      cache = F,
+                      cache = T,
                       results = 'asis', 
                       warning = F, 
                       message = F, 
@@ -79,6 +79,8 @@ rm(taxa_di_anual_id,
 
 ## TÓPICOS ABORDADOS
 
+  ---
+  
 </br>
 
 - [**MATEMÁTICA FINANCEIRA**](#matematicafinanceira)
@@ -103,13 +105,15 @@ name: matematicafinanceira
 
 ## REVISÃO: MATEMÁTICA FINANCEIRA
 
-- Os juros capitalizados de maneira simples (**juros simples**) correspondem ao rendimento futuro 
-gerados a partir da **incidência** apenas sobre o **principal** (capital inicial) associado:
+  ---
 
-$$J_n = P . i . n$$
+- Os juros capitalizados de maneira simples (**juros simples**) correspondem ao rendimento futuro 
+gerados a partir da **incidência** apenas sobre o **valor presente** (capital inicial) associado:
+
+$$J_n = VP . i . n$$
 $J_n$ = Juros gerados em _n_ períodos
 
-$𝑃$ = Principal (capital inicial);
+$VP$ = Valor Presente (capital inicial);
 
 $𝑖$ = Taxa de Juros;
 
@@ -123,12 +127,14 @@ $𝑛$ = Número de Períodos.
 
 ## REVISÃO: MATEMÁTICA FINANCEIRA
 
+  ---
+
 - O valor total obtido após o período de rendimento é chamado de **valor futuro (VF)**. No caso do 
 juros simples, tem-se:
 
-$$VF_n = P + J_n$$
+$$VF_n = VP + J_n$$
 
-$$VF_n = P + P.i.n$$
+$$VF_n = VP + VP.i.n$$
 $VF_n$ = Valor Futuro após _n_ períodos.
 
 
@@ -140,11 +146,13 @@ $VF_n$ = Valor Futuro após _n_ períodos.
 
 ## REVISÃO: MATEMÁTICA FINANCEIRA
 
+  ---
+
 - Por sua vez, os juros capitalizados de maneira composta (**juros compostos**) correspondem ao rendimento
-futuro que incide sobre o **principal** (capital inicial) empregado acrescido dos juros até o período 
+futuro que incide sobre o **valor presente** (capital inicial) empregado acrescido dos juros até o período 
 anterior:
 
-$$VF_1 = P+P.i = P(1+i)$$
+$$VF_1 = VP+VP.i = VP(1+i)$$
 $$VF_2 = VF_1+VF_1.i = P(1+i)^2$$
 $$VF_3 = VF_2+VF_2.i = P(1+i)^3$$
 $$VF_n = VF_{n-1}+VF_{n-1}.i = P(1+i)^n$$
@@ -155,12 +163,14 @@ $$VF_n = VF_{n-1}+VF_{n-1}.i = P(1+i)^n$$
 
 ## RELAÇÃO COM MACROECONOMIA
 
+  ---
+
 - Com esta pequena revisão de matemática financeira já é possível realizar uma associação com o 
 conceito de taxa de juros. Como visto, como os valores nominais representam poder de compra em 
 períodos diferentes é necessário realizar uma correção da série;
 
 - De fato, toda vez que estamos interessados em avaliar a variação de uma série monetária é 
-necessário realizar esta correção monetária (**deflacionar a série**).
+necessário realizar esta correção monetária (**deflacionar ou inflacionar a série**).
 
 - Isto nada mais é que um exercício simples de matemática financeira (ao se considerar o regime de 
 capitalização composta).
@@ -170,7 +180,9 @@ capitalização composta).
 
 ## RELAÇÃO COM MACROECONOMIA
 
-**EXEMPLO DE SÉRIE DEFLACIONADA**
+  ---
+
+**EXEMPLO DE SÉRIE COM CORREÇÃO MONETÁRIA**
 
 ```{r , results = 'asis'}
 
@@ -227,6 +239,8 @@ name: taxadejurosimportantes
 
 ## TAXAS DE JUROS IMPORTANTES
 
+  ---
+
 </br>
 
 - Existem diversas taxas de juros no Brasil. Entretanto, pode-se dizer a grosso modo que duas delas 
@@ -241,6 +255,8 @@ são especialmente importantes.
 <div style="text-align: justify">
 
 ## TAXAS DE JUROS IMPORTANTES
+
+  ---
 
 - A taxa SELIC (Sistema Especial de Liquidação e Custódia) é entendida como taxa básica de juros 
 pois:
@@ -258,6 +274,8 @@ redesconto;
 <div style="text-align: justify">
 
 ## O BRASIL EM PERSPECTIVA
+
+  ---
 
 ```{r grafico_selic}
 # VISUALIZAÇÃO DOS DADOS:
@@ -289,6 +307,8 @@ widgetframe::frameWidget(taxa_selic_grafico, width = '100%', height = '100%')
 <div style="text-align: justify">
 
 ## TAXAS DE JUROS IMPORTANTES
+
+  ---
   
 - Em associação, os bancos usam a informação da Taxa SELIC para formarem uma outra taxa de juros 
 (denominada de DI);
@@ -304,6 +324,8 @@ operações.
 <div style="text-align: justify">
 
 ## O BRASIL EM PERSPECTIVA
+
+  ---
 
 ```{r grafico_di}
 # VISUALIZAÇÃO DOS DADOS:
@@ -335,6 +357,8 @@ widgetframe::frameWidget(taxa_di_grafico, width = '100%', height = '100%')
 <div style="text-align: justify">
 
 ## O BRASIL EM PERSPECTIVA
+
+  ---
 
 ```{r grafico_juros}
 # VISUALIZAÇÃO DOS DADOS:
@@ -376,6 +400,8 @@ name: #spreadbancaria
 
 ## CONCEITO DE SPREAD BANCÁRIO
 
+  ---
+
 - Os bancos são chamados de intermediários financeiros, isto é, eles captam recursos de agentes 
 superavitários e realocam para agentes deficitários através de suas operações de crédito;
 
@@ -391,6 +417,8 @@ class: inverse
 <div style="text-align: justify">
 
 ## CONCEITO DE SPREAD BANCÁRIO
+
+  ---
 
 ```{r, out.width= '90%'}
 
@@ -408,6 +436,8 @@ knitr::include_graphics('fig01.PNG', dpi = 300)
 
 ## CONCEITO DE SPREAD BANCÁRIO
 
+  ---
+
 - Quando os bancos realizam operações de captação eles pagam juros aos agentes superavitários (para 
 estimular que a operação seja realizada);
 
@@ -424,6 +454,8 @@ class: inverse
 
 ## CONCEITO DE SPREAD BANCÁRIO
 
+  ---
+
 ```{r, out.width= '90%'}
 
 
@@ -437,6 +469,8 @@ knitr::include_graphics('fig02.PNG', dpi = 300)
 
 ---
 ## O BRASIL EM PERSPECTIVA
+
+  ---
 
 <div style="text-align: justify">
 
@@ -470,6 +504,8 @@ class: inverse
 <div style="text-align: justify">
 
 ## IMPACTO DA SELIC NA INFLAÇÃO DE DEMANDA
+
+  ---
 
 ```{r, out.width= '90%'}
 
