@@ -153,9 +153,9 @@ futuro que incide sobre o **valor presente** (capital inicial) empregado acresci
 anterior:
 
 $$VF_1 = VP+VP.i = VP(1+i)$$
-$$VF_2 = VF_1+VF_1.i = P(1+i)^2$$
-$$VF_3 = VF_2+VF_2.i = P(1+i)^3$$
-$$VF_n = VF_{n-1}+VF_{n-1}.i = P(1+i)^n$$
+$$VF_2 = VF_1+VF_1.i = VP(1+i)^2$$
+$$VF_3 = VF_2+VF_2.i = VP(1+i)^3$$
+$$VF_n = VF_{n-1}+VF_{n-1}.i = VP(1+i)^n$$
 
 
 ---
@@ -211,7 +211,7 @@ knitr::kable(cronograma,
              
              col.names = c('Data', 'Taxa de Inflação', 
                            
-                           'Série Original', 'Série Deflacionada'),
+                           'Série Original', 'Série Corrigida'),
              
              align = c('c', 'c', 'c', 'c')) %>%
   
