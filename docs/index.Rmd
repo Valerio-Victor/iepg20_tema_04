@@ -46,35 +46,78 @@ use_search(show_icon = TRUE)
 # PACOTES NECESSÁRIOS:
 library(magrittr, include.only = '%>%')
 library(ggplot2)
+library(httr)
+library(jsonlite)
 
-# IMPORTAÇÃO DE DADOS:
+# IDENTIFICAÇÃO DAS VARIÁVEIS:
 taxa_di_anual_id <- 4389
 taxa_selic_anual_id <- 432
 spread_bancario_di <- 20783 
 taxa_juros_di <- 20714
-  
- 
-taxa_di_anual <- GetBCBData::gbcbd_get_series(id = taxa_di_anual_id,
-                                               first.date = as.Date('1995-01-01'),
-                                               last.date = Sys.Date())
 
-taxa_selic_anual <- GetBCBData::gbcbd_get_series(taxa_selic_anual_id,
-                                                 first.date = as.Date('1995-01-01'),
-                                                 last.date = Sys.Date())
+# IMPORTAÇÃO DOS DADOS:
+inicio <- format(Sys.Date() - lubridate::years(x = 10), '%d/%m/%Y') 
+fim <- format(Sys.Date(), '%d/%m/%Y')
 
-spread_bancario <- GetBCBData::gbcbd_get_series(spread_bancario_di,
-                                                first.date = as.Date('1995-01-01'),
-                                                last.date = Sys.Date())
+# DI ANUAL
+url <- paste0(
+  'https://api.bcb.gov.br/dados/serie/bcdata.sgs.', 
+  taxa_di_anual_id,
+  '/dados?formato=json&dataInicial=',
+  inicio,
+  '&dataFinal=',
+  fim)
 
-taxa_juros <- GetBCBData::gbcbd_get_series(taxa_juros_di,
-                                           first.date = as.Date('1995-01-01'),
-                                           last.date = Sys.Date())
+response <- GET(url)
 
+taxa_di_anual <- fromJSON(content(response, "text")) %>% 
+  dplyr::transmute(Data = lubridate::dmy(data),
+                   Valor = as.numeric(valor))
 
-rm(taxa_di_anual_id,
-   taxa_selic_anual_id,
-   spread_bancario_di,
-   taxa_juros_di)
+# SELIC ANUAL
+url <- paste0(
+  'https://api.bcb.gov.br/dados/serie/bcdata.sgs.', 
+  taxa_selic_anual_id,
+  '/dados?formato=json&dataInicial=',
+  inicio,
+  '&dataFinal=',
+  fim)
+
+response <- GET(url)
+
+taxa_selic_anual <- fromJSON(content(response, "text")) %>% 
+  dplyr::transmute(Data = lubridate::dmy(data),
+                   Valor = as.numeric(valor))
+
+# SPREAD BANCÁRIO
+url <- paste0(
+  'https://api.bcb.gov.br/dados/serie/bcdata.sgs.', 
+  spread_bancario_di,
+  '/dados?formato=json&dataInicial=',
+  inicio,
+  '&dataFinal=',
+  fim)
+
+response <- GET(url)
+
+spread_bancario <- fromJSON(content(response, "text")) %>% 
+  dplyr::transmute(Data = lubridate::dmy(data),
+                   Valor = as.numeric(valor))
+
+# TAXA DE JUROS DI
+url <- paste0(
+  'https://api.bcb.gov.br/dados/serie/bcdata.sgs.', 
+  taxa_juros_di,
+  '/dados?formato=json&dataInicial=',
+  inicio,
+  '&dataFinal=',
+  fim)
+
+response <- GET(url)
+
+taxa_juros <- fromJSON(content(response, "text")) %>% 
+  dplyr::transmute(Data = lubridate::dmy(data),
+                   Valor = as.numeric(valor))
 ```
 
 ## TÓPICOS ABORDADOS
@@ -313,8 +356,8 @@ redesconto;
 ```{r grafico_selic}
 # VISUALIZAÇÃO DOS DADOS:
 taxa_selic_grafico <- taxa_selic_anual %>% 
-  dplyr::rename('Data' = ref.date,
-                'Selic' = value) %>% 
+  dplyr::rename('Data' = Data,
+                'Selic' = Valor) %>% 
   ggplot2::ggplot() +
   ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = Selic),
                      colour = '#1c5253',
@@ -363,8 +406,8 @@ operações.
 ```{r grafico_di}
 # VISUALIZAÇÃO DOS DADOS:
 taxa_di_grafico <- taxa_di_anual %>% 
-  dplyr::rename('Data' = ref.date,
-                'DI' = value) %>% 
+  dplyr::rename('Data' = Data,
+                'DI' = Valor) %>% 
   ggplot2::ggplot() +
   ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = DI),
                      colour = '#1c5253',
@@ -396,8 +439,8 @@ widgetframe::frameWidget(taxa_di_grafico, width = '100%', height = '100%')
 ```{r grafico_juros}
 # VISUALIZAÇÃO DOS DADOS:
 taxa_juros_grafico <- taxa_juros %>% 
-  dplyr::rename('Data' = ref.date,
-                'Juros' = value) %>% 
+  dplyr::rename('Data' = Data,
+                'Juros' = Valor) %>% 
   ggplot2::ggplot() +
   ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = Juros),
                      colour = '#1c5253',
@@ -510,8 +553,8 @@ knitr::include_graphics('fig02.png')
 ```{r grafico_spread}
 # VISUALIZAÇÃO DOS DADOS:
 spread_bancario_grafico <- spread_bancario %>% 
-  dplyr::rename('Data' = ref.date,
-                'SPREAD' = value) %>% 
+  dplyr::rename('Data' = Data,
+                'SPREAD' = Valor) %>% 
   ggplot2::ggplot() +
   ggplot2::geom_line(mapping = ggplot2::aes(x = Data, y = SPREAD),
                      colour = '#1c5253',

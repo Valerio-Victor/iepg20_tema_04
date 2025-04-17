@@ -3,3 +3,5 @@ xaringanExtra
 magrittr
 ggplot2
 kableExtra
+httr
+jsonlite
